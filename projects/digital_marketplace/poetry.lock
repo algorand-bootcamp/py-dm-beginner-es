@@ -127,15 +127,20 @@ name = "algokit-utils"
 version = "2.2.1"
 description = "Utilities for Algorand development for use by AlgoKit"
 optional = false
-python-versions = ">=3.10,<4.0"
-files = [
-    {file = "algokit_utils-2.2.1-py3-none-any.whl", hash = "sha256:5d669211500e3ae9d29a93ec9b2cc174a3b4aca48b345f475ee8ba955df5f555"},
-]
+python-versions = "^3.10"
+files = []
+develop = false
 
 [package.dependencies]
-deprecated = ">=1.2.14,<2.0.0"
-httpx = ">=0.23.1,<0.24.0"
-py-algorand-sdk = ">=2.4.0,<3.0.0"
+deprecated = "^1.2.14"
+httpx = "^0.23.1"
+py-algorand-sdk = "^2.4.0"
+
+[package.source]
+type = "git"
+url = "https://github.com/algorandfoundation/algokit-utils-py"
+reference = "feat/algorand_client"
+resolved_reference = "a16accd459d129b419904ee3430393d2feedd614"
 
 [[package]]
 name = "algorand-python"
@@ -1974,4 +1979,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "7b7a9cfb8384a4e40d18db34cceb11d2a38d8e6d4cd8f302d26012df03ba6b15"
+content-hash = "e1e9695757ff2c27cf9b7cdef054e1defd9c019c99e891aaf7e17090bb220c2e"

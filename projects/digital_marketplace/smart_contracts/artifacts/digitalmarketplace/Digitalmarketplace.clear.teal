@@ -1,0 +1,7 @@
+#pragma version 10
+
+smart_contracts.digitalmarketplace.contract.Digitalmarketplace.clear_state_program:
+    // smart_contracts/digitalmarketplace/contract.py:4
+    // class Digitalmarketplace(ARC4Contract):
+    int 1
+    return
