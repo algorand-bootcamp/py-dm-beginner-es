@@ -12,7 +12,8 @@ interface HomeProps {}
 const Home: React.FC<HomeProps> = () => {
   algokit.Config.configure({ populateAppCallResources: true})
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
-  const { activeAddress } = useWallet()
+  const [appId, setAppId]  = useState<number>(0)
+  const { activeAddress, signer } = useWallet()
 
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal)
@@ -20,8 +21,13 @@ const Home: React.FC<HomeProps> = () => {
 
   const algodConfig = getAlgodConfigFromViteEnvironment()
   const algorand = algokit.AlgorandClient.fromConfig({algodConfig})
+  algorand.setDefaultSigner(signer)
 
-
+  const dmClient = new DigitalmarketplaceClient({
+    resolveBy: 'id',
+    id: appId,
+    sender: { addr: activeAddress!, signer }
+  }, algorand.client.algod)
 
 
   return (
