@@ -8,16 +8,12 @@ interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
-  const [openDemoModal, setOpenDemoModal] = useState<boolean>(false)
   const { activeAddress } = useWallet()
 
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal)
   }
 
-  const toggleDemoModal = () => {
-    setOpenDemoModal(!openDemoModal)
-  }
 
   return (
     <div className="hero min-h-screen bg-teal-400">
@@ -31,29 +27,16 @@ const Home: React.FC<HomeProps> = () => {
           </p>
 
           <div className="grid">
-            <a
-              data-test-id="getting-started"
-              className="btn btn-primary m-2"
-              target="_blank"
-              href="https://github.com/algorandfoundation/algokit-cli"
-            >
-              Getting started
-            </a>
-
-            <div className="divider" />
             <button data-test-id="connect-wallet" className="btn m-2" onClick={toggleWalletModal}>
               Wallet Connection
             </button>
+            <div className="divider" />
 
-            {activeAddress && (
-              <button data-test-id="transactions-demo" className="btn m-2" onClick={toggleDemoModal}>
-                Transactions Demo
-              </button>
-            )}
+
           </div>
 
           <ConnectWallet openModal={openWalletModal} closeModal={toggleWalletModal} />
-          <Transact openModal={openDemoModal} setModalState={setOpenDemoModal} />
+
         </div>
       </div>
     </div>
