@@ -1,18 +1,27 @@
 // src/components/Home.tsx
+import * as algokit from '@algorandfoundation/algokit-utils'
 import { useWallet } from '@txnlab/use-wallet'
 import React, { useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
+import { DigitalmarketplaceClient } from './contracts/Digitalmarketplace'
+import { getAlgodConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
 
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = () => {
+  algokit.Config.configure({ populateAppCallResources: true})
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
   const { activeAddress } = useWallet()
 
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal)
   }
+
+  const algodConfig = getAlgodConfigFromViteEnvironment()
+  const algorand = algokit.AlgorandClient.fromConfig({algodConfig})
+
+
 
 
   return (
