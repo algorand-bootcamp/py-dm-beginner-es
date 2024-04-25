@@ -1,7 +1,7 @@
 // src/components/Home.tsx
 import * as algokit from '@algorandfoundation/algokit-utils'
 import { useWallet } from '@txnlab/use-wallet'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
 import { DigitalmarketplaceClient } from './contracts/Digitalmarketplace'
@@ -19,6 +19,16 @@ const Home: React.FC<HomeProps> = () => {
   const [unitaryPrice, setUnitaryPrice] = useState<bigint>(0n)
   const [quantity, setQuantity] = useState<bigint>(1n)
   const { activeAddress, signer } = useWallet()
+
+  useEffect(() => {
+    dmClient.getGlobalState().then((globalState) => {
+      setUnitaryPrice(globalState.unitaryPrice?.asBigInt() || 0n)
+      setAssetId(globalState.assetId?.asBigInt() || 0n)
+    }).catch(() => {
+      setUnitaryPrice(0n)
+      setAssetId(0n)
+    })
+  }, [appId])
 
   const toggleWalletModal = () => {
     setOpenWalletModal(!openWalletModal)
