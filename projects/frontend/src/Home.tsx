@@ -25,7 +25,11 @@ const Home: React.FC<HomeProps> = () => {
   useEffect(() => {
     dmClient.getGlobalState().then((globalState) => {
       setUnitaryPrice(globalState.unitaryPrice?.asBigInt() || 0n)
-      setAssetId(globalState.assetId?.asBigInt() || 0n)
+      const id = globalState.assetId?.asBigInt() || 0n
+      setAssetId(id)
+      algorand.account.getAssetInformation(algosdk.getApplicationAddress(appId), id).then((info) => {
+        setUnitsLeft(info.balance)
+      })
     }).catch(() => {
       setUnitaryPrice(0n)
       setAssetId(0n)
@@ -79,17 +83,34 @@ const Home: React.FC<HomeProps> = () => {
               </div>
             )}
 
-            { activeAddress && appId !== 0 && (
+            { appId && (
               <div>
+                <label className="label">Asset ID</label>
+                <input type="number" className="input input-bordered" value={assetId.toString()} readOnly={true} />
+
                 <label className="label">Precio por Asset</label>
                 <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} readOnly={true} />
 
+                <label className="label">Assets disponibles</label>
+                <input type="number" className="input input-bordered" value={unitsLeft.toString()} readOnly={true} />
+              </div>
+            ) }
+            <div className="divider" />
+            { activeAddress && appId !== 0 && unitsLeft > 0n && (
+              <div>
+
+
                 <label className="label">Cuantos Assets desea comprar</label>
-                <input type="number" className="input input-bordered" value={quantity.toString()} onChange={(e) => {setQuantity(BigInt(e.currentTarget.valueAsNumber))}}/>
+                <input type="number" className="input input-bordered" value={quantity.toString()} onChange={(e) => {setQuantity(BigInt(e.currentTarget.valueAsNumber))}} max={unitsLeft.toString()} min={0}/>
 
 
                 <MethodCall methodFunction={methods.buy(algorand, dmClient, activeAddress!, algosdk.getApplicationAddress(appId), quantity, unitaryPrice, setUnitsLeft)} text ={`Comprar ${quantity} assets por ${unitaryPrice * BigInt(quantity) / BigInt(10e6)} ALGOs`}/>
               </div>
+            )}
+
+            { appId !== 0 && unitsLeft === 0n && (
+              <button className="btn btn-disabled m-2">NO HAY ASSETS DISPONIBLES</button>
+
             )}
 
 
