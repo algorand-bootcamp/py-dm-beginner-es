@@ -55,9 +55,18 @@ const Home: React.FC<HomeProps> = () => {
             <label className="label">App ID: </label>
             <input type="number" className="input input-bordered" value={appId} onChange={(e) => setAppId(e.currentTarget.valueAsNumber)}/>
             <div className="divider" />
-            { activeAddress && appId === 0 && (<div>
+            { activeAddress && appId === 0 && (
+            <div>
                 <MethodCall methodFunction={methods.create(algorand, dmClient, activeAddress!, unitaryPrice, quantity, assetId, setAppId)} text={'Create App'} />
-            </div>)}
+            </div>
+            )}
+
+            { activeAddress && appId !== 0 && (
+              <div>
+                <label className="label">Price per Unit</label>
+                <input type="text" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} readOnly={true}/>
+              </div>
+            )}
 
 
           </div>
