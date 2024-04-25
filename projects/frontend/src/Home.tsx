@@ -63,18 +63,23 @@ const Home: React.FC<HomeProps> = () => {
             <div className="divider" />
 
             <label className="label">App ID: </label>
-            <input type="number" className="input input-bordered" value={appId} onChange={(e) => setAppId(e.currentTarget.valueAsNumber)}/>
+            <input type="number" className="input input-bordered" value={appId} min={0} onChange={(e) => setAppId(e.currentTarget.valueAsNumber)}/>
             <div className="divider" />
             { activeAddress && appId === 0 && (
-            <div>
+              <div>
+                <label className="label">Inserte Precio Unitario</label>
+                <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} onChange={(e) => {setUnitaryPrice(BigInt(e.currentTarget.valueAsNumber || 0) * BigInt(10e6))}}/>
+
+
+
                 <MethodCall methodFunction={methods.create(algorand, dmClient, activeAddress!, unitaryPrice, quantity, assetId, setAppId)} text={'Create App'} />
-            </div>
+              </div>
             )}
 
             { activeAddress && appId !== 0 && (
               <div>
-                <label className="label">Price per Unit</label>
-                <input type="text" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} readOnly={true}/>
+                <label className="label">Precio por Asset</label>
+                <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} readOnly={true} />
               </div>
             )}
 
