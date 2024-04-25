@@ -6,6 +6,8 @@ import ConnectWallet from './components/ConnectWallet'
 import Transact from './components/Transact'
 import { DigitalmarketplaceClient } from './contracts/Digitalmarketplace'
 import { getAlgodConfigFromViteEnvironment } from './utils/network/getAlgoClientConfigs'
+import MethodCall from './components/methodCall'
+import * as methods from './methods'
 
 interface HomeProps {}
 
@@ -13,6 +15,9 @@ const Home: React.FC<HomeProps> = () => {
   algokit.Config.configure({ populateAppCallResources: true})
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false)
   const [appId, setAppId]  = useState<number>(0)
+  const [assetId, setAssetId] = useState<bigint>(0n)
+  const [unitaryPrice, setUnitaryPrice] = useState<bigint>(0n)
+  const [quantity, setQuantity] = useState<bigint>(1n)
   const { activeAddress, signer } = useWallet()
 
   const toggleWalletModal = () => {
@@ -24,9 +29,9 @@ const Home: React.FC<HomeProps> = () => {
   algorand.setDefaultSigner(signer)
 
   const dmClient = new DigitalmarketplaceClient({
-    resolveBy: 'id',
-    id: appId,
-    sender: { addr: activeAddress!, signer }
+      resolveBy: 'id',
+      id: appId,
+      sender: { addr: activeAddress!, signer },
   }, algorand.client.algod)
 
 
@@ -46,6 +51,13 @@ const Home: React.FC<HomeProps> = () => {
               Wallet Connection
             </button>
             <div className="divider" />
+
+            <label className="label">App ID: </label>
+            <input type="number" className="input input-bordered" value={appId} onChange={(e) => setAppId(e.currentTarget.valueAsNumber)}/>
+            <div className="divider" />
+            { activeAddress && appId === 0 && (<div>
+                <MethodCall methodFunction={methods.create(algorand, dmClient, activeAddress!, unitaryPrice, quantity, assetId, setAppId)} text={'Create App'} />
+            </div>)}
 
 
           </div>
