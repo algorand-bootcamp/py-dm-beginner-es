@@ -79,12 +79,29 @@ const Home: React.FC<HomeProps> = () => {
             { activeAddress && appId === 0 && (
               <div>
                 <label className="label">Inserte Precio Unitario</label>
-                <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} onChange={(e) => {setUnitaryPrice(BigInt(e.currentTarget.valueAsNumber || 0) * BigInt(10e6))}}/>
+                <input
+                  type="number"
+                  className="input input-bordered"
+                  value={(unitaryPrice / BigInt(1e6)).toString()}
+                  onChange={(e) => {
+                    setUnitaryPrice(BigInt(e.currentTarget.valueAsNumber || 0) * BigInt(1e6))
+                  }}
+                />
 
                 <label className="label">Cantidad de Assets</label>
-                <input type="number" className="input input-bordered" value={quantity.toString()} onChange={(e) => {setQuantity(BigInt(e.currentTarget.valueAsNumber))}}/>
+                <input
+                  type="number"
+                  className="input input-bordered"
+                  value={quantity.toString()}
+                  onChange={(e) => {
+                    setQuantity(BigInt(e.currentTarget.valueAsNumber))
+                  }}
+                />
 
-                <MethodCall methodFunction={methods.create(algorand, dmClient, activeAddress!, unitaryPrice, quantity, assetId, setAppId)} text={'Create App'} />
+                <MethodCall
+                  methodFunction={methods.create(algorand, dmClient, activeAddress!, unitaryPrice, quantity, assetId, setAppId)}
+                  text={'Create App'}
+                />
               </div>
             )}
 
@@ -94,7 +111,7 @@ const Home: React.FC<HomeProps> = () => {
                 <input type="number" className="input input-bordered" value={assetId.toString()} readOnly={true} />
 
                 <label className="label">Precio por Asset</label>
-                <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} readOnly={true} />
+                <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(1e6)).toString()} readOnly={true} />
 
                 <label className="label">Assets disponibles</label>
                 <input type="number" className="input input-bordered" value={unitsLeft.toString()} readOnly={true} />
@@ -109,7 +126,7 @@ const Home: React.FC<HomeProps> = () => {
                 <input type="number" className="input input-bordered" value={quantity.toString()} onChange={(e) => {setQuantity(BigInt(e.currentTarget.valueAsNumber))}} max={unitsLeft.toString()} min={0}/>
 
 
-                <MethodCall methodFunction={methods.buy(algorand, dmClient, activeAddress!, algosdk.getApplicationAddress(appId), quantity, unitaryPrice, setUnitsLeft)} text ={`Comprar ${quantity} assets por ${unitaryPrice * BigInt(quantity) / BigInt(10e6)} ALGOs`}/>
+                <MethodCall methodFunction={methods.buy(algorand, dmClient, activeAddress!, algosdk.getApplicationAddress(appId), quantity, unitaryPrice, setUnitsLeft)} text ={`Comprar ${quantity} assets por ${unitaryPrice * BigInt(quantity) / BigInt(1e6)} ALGOs`}/>
               </div>
             )}
 
