@@ -20,6 +20,7 @@ const Home: React.FC<HomeProps> = () => {
   const [unitaryPrice, setUnitaryPrice] = useState<bigint>(0n)
   const [quantity, setQuantity] = useState<bigint>(0n)
   const [unitsLeft, setUnitsLeft] = useState<bigint>(0n)
+  const [seller, setSeller] = useState<string>('')
   const { activeAddress, signer } = useWallet()
 
   useEffect(() => {
@@ -27,8 +28,12 @@ const Home: React.FC<HomeProps> = () => {
       setUnitaryPrice(globalState.unitaryPrice?.asBigInt() || 0n)
       const id = globalState.assetId?.asBigInt() || 0n
       setAssetId(id)
-      algorand.account.getAssetInformation(algosdk.getApplicationAddress(appId), id).then((info) => {
-        setUnitsLeft(info.balance)
+        algorand.account.getAssetInformation(algosdk.getApplicationAddress(appId), id).then((info) => {
+          setUnitsLeft(info.balance)
+      })
+      algorand.client.algod.getApplicationByID(appId).do().then((response) => {
+        setSeller(response.params.creator)
+
       })
     }).catch(() => {
       setUnitaryPrice(0n)
@@ -83,7 +88,7 @@ const Home: React.FC<HomeProps> = () => {
               </div>
             )}
 
-            { appId && (
+            { appId !== 0 && (
               <div>
                 <label className="label">Asset ID</label>
                 <input type="number" className="input input-bordered" value={assetId.toString()} readOnly={true} />
@@ -110,7 +115,10 @@ const Home: React.FC<HomeProps> = () => {
 
             { appId !== 0 && unitsLeft === 0n && (
               <button className="btn btn-disabled m-2">NO HAY ASSETS DISPONIBLES</button>
+            )}
 
+            { appId !== 0 && unitsLeft === 0n && activeAddress == seller && (
+              <MethodCall methodFunction={methods.deleteApp(dmClient, setAppId)} text={"Cobrar"}/>
             )}
 
 
