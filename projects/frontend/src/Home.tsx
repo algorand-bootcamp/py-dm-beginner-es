@@ -17,7 +17,7 @@ const Home: React.FC<HomeProps> = () => {
   const [appId, setAppId]  = useState<number>(0)
   const [assetId, setAssetId] = useState<bigint>(0n)
   const [unitaryPrice, setUnitaryPrice] = useState<bigint>(0n)
-  const [quantity, setQuantity] = useState<bigint>(1n)
+  const [quantity, setQuantity] = useState<bigint>(0n)
   const { activeAddress, signer } = useWallet()
 
   useEffect(() => {
@@ -70,7 +70,8 @@ const Home: React.FC<HomeProps> = () => {
                 <label className="label">Inserte Precio Unitario</label>
                 <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} onChange={(e) => {setUnitaryPrice(BigInt(e.currentTarget.valueAsNumber || 0) * BigInt(10e6))}}/>
 
-
+                <label className="label">Cantidad de Assets</label>
+                <input type="number" className="input input-bordered" value={quantity.toString()} onChange={(e) => {setQuantity(BigInt(e.currentTarget.valueAsNumber))}}/>
 
                 <MethodCall methodFunction={methods.create(algorand, dmClient, activeAddress!, unitaryPrice, quantity, assetId, setAppId)} text={'Create App'} />
               </div>
