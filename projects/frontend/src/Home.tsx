@@ -1,5 +1,6 @@
 // src/components/Home.tsx
 import * as algokit from '@algorandfoundation/algokit-utils'
+import algosdk from "algosdk"
 import { useWallet } from '@txnlab/use-wallet'
 import React, { useEffect, useState } from 'react'
 import ConnectWallet from './components/ConnectWallet'
@@ -18,6 +19,7 @@ const Home: React.FC<HomeProps> = () => {
   const [assetId, setAssetId] = useState<bigint>(0n)
   const [unitaryPrice, setUnitaryPrice] = useState<bigint>(0n)
   const [quantity, setQuantity] = useState<bigint>(0n)
+  const [unitsLeft, setUnitsLeft] = useState<bigint>(0n)
   const { activeAddress, signer } = useWallet()
 
   useEffect(() => {
@@ -81,6 +83,12 @@ const Home: React.FC<HomeProps> = () => {
               <div>
                 <label className="label">Precio por Asset</label>
                 <input type="number" className="input input-bordered" value={(unitaryPrice / BigInt(10e6)).toString()} readOnly={true} />
+
+                <label className="label">Cuantos Assets desea comprar</label>
+                <input type="number" className="input input-bordered" value={quantity.toString()} onChange={(e) => {setQuantity(BigInt(e.currentTarget.valueAsNumber))}}/>
+
+
+                <MethodCall methodFunction={methods.buy(algorand, dmClient, activeAddress!, algosdk.getApplicationAddress(appId), quantity, unitaryPrice, setUnitsLeft)} text ={`Comprar ${quantity} assets por ${unitaryPrice * BigInt(quantity) / BigInt(10e6)} ALGOs`}/>
               </div>
             )}
 
