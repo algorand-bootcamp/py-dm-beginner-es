@@ -1,21 +1,17 @@
-# digital_marketplace
+# Bootcamp Beginner de Python
 
-Welcome to your new AlgoKit project!
+¡Bienvenido al Bootcamp Beginner de desarrollo blockchain en Python!
 
-This is your workspace root. A `workspace` in AlgoKit is an orchestrated collection of standalone projects (backends, smart contracts, frontend apps and etc).
+Con este contenido podrás crear una aplicación descentralizada completamente funcional, aprendiendo
 
-By default, `projects_root_path` parameter is set to `projects`. Which instructs AlgoKit CLI to create a new directory under `projects` directory when new project is instantiated via `algokit init` at the root of the workspace.
+- A crear tu primer smart contract
+- Testear correctamente tu smart contract
+- Construir los métodos necesarios para el cliente
+- Construir el frontend para que tus usuarios interactúen
 
-## Getting Started
+## Grabaciones
 
-To get started refer to `README.md` files in respective sub-projects in the `projects` directory.
-
-To learn more about algokit, visit [documentation](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/algokit.md).
-
-### GitHub Codespaces
-
-If executing this repository in GitHub Codespaces, the container will automatically cleanup templatized content and pre-install `algokit` for you. To get started execute:
-
-- `algokit init` - to invoke interactive wizard to guide you through the process of creating a new AlgoKit project
-
-Powered by [Copier templates](https://copier.readthedocs.io/en/stable/).
+- [Sesión 1: Creación del contrato de Marketplace Digital](https://drive.google.com/file/d/1_DQgKfrTn_rsjFztcTn32pllH0PjcuaN/view?usp=drive_link)
+- [Sesión 2: Testing del Contrato](https://drive.google.com/file/d/1fGDnOmGDA1IKgE3rLf-iPN6dSTR3iidX/view?usp=drive_link)
+- [Sesión 3: Construcción de métodos para el cliente](https://drive.google.com/file/d/1AcpKv5sP3JNFc0_lVTDglYMktQg9hZTw/view?usp=drive_link)
+- [Sesión 4: Creación del frontend usando React](https://drive.google.com/file/d/1u7ZYpc5-P0QwwICl8yHMuvolHV4AlnUR/view?usp=drive_link)
